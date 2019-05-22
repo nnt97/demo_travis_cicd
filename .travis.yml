@@ -1,0 +1,26 @@
+sudo: required
+language: java
+jdk: oraclejdk8
+ 
+services:
+- docker
+ 
+env:
+  global:
+  - secure: B8h0B2d0X2eJXyfbehymFyYxt5KvyQR85DHLGpEAiCTG9pbJm68JkL52biDjMS0O3rf/tv3TX2NdnB9FQ2SoV/POCtQbdx7YxSddgspXkhaSGkcNiBAlLr+Pp1fe3Vku5nqQmq9rGSRlkJcIFTo6fzmffvmMGgt7CjnAbO6Wyid3mNoZt+gCpctHY30oMZ2rK2rZLzGTPd//7/8qe+MRj++jnou614xYv5bE0qpYd2AyXrDSozk+PiHCOVlXxlWLYfQcyTnO5k7SBfGnvmB6Y5G84bg3xTnjUzMO+uWaYsgJ8D86avFbNjVd2VbFoHWtLo5lfz36csA+lt0G4uLj3AqnmYpplV6TSQB5f0ws1HvLembaB+BsNs/9IhJnanmyouT0vz+lZuIHA0FZz7bM684V6tLPvdggjFjUKjYmORSPCMWnkZMp7Sk7+R9ZoBWDH8eYN7HrN+epD26b55XVXE6Dt3KRlqxuYanfLEtpWJey5uNC8GUlTYR2v3MEyUXI/xzlIrg3lZ/+QCLBODCTuv4MzTmzMIuIqShIdYJ+zw/jN9Z2tFOutMneh4sTtk4eh2ZgqUPBfUOxjcmPtNXt7XAMFWPgqrBm+EgDIPxqrlP497Mu3IA8xioi2TxCPsuEsQOMqa9ab8XaosrxXxIA9uRFJcUbOhw3REkz3ZCETxY=
+  - secure: TdSkVGFjhjPsqJ4HrTFQ2Vh7OeNBtGL/H9rCrHv9TuJpkXpVJdnsPKj6sjssupRjbnoB9PGfo6M5tD6J+7tpTL0xBCxCOOsm7TYlOh7pHxU6rzQYz3hVnKQBtrKcJHqr/yHEP4UP1omi3Wz7h8U6aWqzjDO/wo8eZ01RNmsEp4aT62y9ZqfPFgT055rJjqHLbbtX3uyhbX1Ay7DFTy0Cf9P3QFIXh7fBD8/CqioDEGzKfHo9GHUgl2Lm+aOnQzE+JOt3S0abxAN86AZS2qmiRX8yI5bbNeG0k+gm++krsrAlG07TafI9yOp/wBdCgTBtshXtSvSdvFKzAyteIykH0NxkU6ytkZOZmH/cauXrgStVNQ3nOgJx3ABTOGJPi8zO+QtU46J+Bp684ISxU/9Dy5lU016M3NnsC0lnRRnSwGEV/4ii/5OqDAKUzq+zIAxC5h72sKJEc5L6v5NpJuM1tZZN+2aM2CW6jnuBti1QDfu12jicyB21rG4Rp7yIrCaaZFPdhwcqjbt2zrAgiKeMLeJwhPS4zRV0uIXVrGm7kwUizZtN7/i1nxR0tKePa7849g9D0D55WvtOMGomR7qg5G9iYaSwJCCFJBR3ZA1Ohypukm0+N3Aqm1Wf/QG/F8olhQsSOzhZsfIMsjcn+aUSiuxHEVHzxYzEliMKNv4bQiU=
+  - secure: jArQYHYS23mu7oU37B6VstJXx1kWjUj7H54yzg0Guk+PNOxc4dJlfGh2Tx6p+tWLByMaICNOw6xdx3JOPwIPZpt5Dclg2XAbBoqIH5pxaNtj+xsyxcQ1gyXYtYQSl0P9t0im/fAQpi9qFz5bduNBSdg1az4aE/6V3Ntjbi+xOJu9fsaUFG5Weso/CqnxEWFGbxwq0twTqDQo4sBBNF0/xQsbC9UYB1Uk47WJFbRU12gJ33slG5qVo3n4IJgXGipEmQGJzt3bUsQzWVGEkkr0UgCbd5GEg6MjC0z9/jQ0F+hfIm79Uxr1Z9GAivXo31FeJVKUKnmZBVBA5fdE+9vCwQiX1aRgZJD9clwWkVqTZG57kQ/TeQfJnPjCLwnetLGhjWE0ELqKeKQ1ggtKrleCNmDhvFoY3zC5l8TyKVaxrQPs8dvew0mMAxbLAsc+Cjq+xRyhy5yPRcmUkHWPsETi81xPYKqwBi+5bvP3GVN2QhAkvcvorPcAAs953zMGyWpoqzuTDni3JwK4a1JgZdG/kd+6medOr2qkVGRqiJvgnv99g+nyTFbUkAAvVjgUs5gFB6RlbQyGJy5182SG7YMK6rW0NH4O9NVn+TNFnCmjzaji+UTjGWAb8MKp2tLL/WtzOOLnTt2qN0OUv+HaB/WbanLaO4dU+4qlF6S5dEvoiWA=
+  - COMMIT=${TRAVIS_COMMIT::7}
+ 
+after_success:
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH&amp;amp;amp;amp;amp;amp;amp;lt;span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start"&amp;amp;amp;amp;amp;amp;amp;gt;&amp;amp;amp;amp;amp;amp;amp;lt;/span&amp;amp;amp;amp;amp;amp;amp;gt;; fi`
+- export IMAGE_NAME=ahihi
+- docker build -t $IMAGE_NAME:$COMMIT .
+- docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+- docker push $IMAGE_NAME
+ 
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: demo-travis-cicd
