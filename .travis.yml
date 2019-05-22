@@ -12,5 +12,14 @@ env:
   - secure: "jArQYHYS23mu7oU37B6VstJXx1kWjUj7H54yzg0Guk+PNOxc4dJlfGh2Tx6p+tWLByMaICNOw6xdx3JOPwIPZpt5Dclg2XAbBoqIH5pxaNtj+xsyxcQ1gyXYtYQSl0P9t0im/fAQpi9qFz5bduNBSdg1az4aE/6V3Ntjbi+xOJu9fsaUFG5Weso/CqnxEWFGbxwq0twTqDQo4sBBNF0/xQsbC9UYB1Uk47WJFbRU12gJ33slG5qVo3n4IJgXGipEmQGJzt3bUsQzWVGEkkr0UgCbd5GEg6MjC0z9/jQ0F+hfIm79Uxr1Z9GAivXo31FeJVKUKnmZBVBA5fdE+9vCwQiX1aRgZJD9clwWkVqTZG57kQ/TeQfJnPjCLwnetLGhjWE0ELqKeKQ1ggtKrleCNmDhvFoY3zC5l8TyKVaxrQPs8dvew0mMAxbLAsc+Cjq+xRyhy5yPRcmUkHWPsETi81xPYKqwBi+5bvP3GVN2QhAkvcvorPcAAs953zMGyWpoqzuTDni3JwK4a1JgZdG/kd+6medOr2qkVGRqiJvgnv99g+nyTFbUkAAvVjgUs5gFB6RlbQyGJy5182SG7YMK6rW0NH4O9NVn+TNFnCmjzaji+UTjGWAb8MKp2tLL/WtzOOLnTt2qN0OUv+HaB/WbanLaO4dU+4qlF6S5dEvoiWA="
 
 after_success:
-- docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-- export TAG=`if [ "${TRAVIS_BRANCH}" == "master" ]; then echo "latest"; else echo ${TRAVIS_BRANCH}&amp;amp;amp;amp;amp;amp;amp;lt;span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start"&amp;amp;amp;amp;amp;amp;amp;gt;&amp;amp;amp;amp;amp;amp;amp;lt;/span&amp;amp;amp;amp;amp;amp;amp;gt;; fi`
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
+  - export IMAGE_NAME=ahihi
+  - docker build -t $IMAGE_NAME:$COMMIT .
+  - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+  - docker push $IMAGE_NAME
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: demo_travis_cicd
